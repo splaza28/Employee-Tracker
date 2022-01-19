@@ -145,7 +145,7 @@ const addStaff = () => {
         {
             type: "input",
             name: "lastName",
-            message: "Please enter employee's late name"
+            message: "Please enter employee's last name"
         },
         {
             type: "input",
