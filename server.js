@@ -17,10 +17,10 @@ const start = () => {
     choices: [
             "Display all departments",
             "Display all staff",
-            "Display all positions",
+            "Display all occupations",
             "Add department",
             "Add employee to staff",
-            "Add new position"
+            "Add new occupation"
             ]
         }
     ]).then((answer) => {
@@ -28,14 +28,14 @@ const start = () => {
             allDepts();
         } else if (answer.makeSelection === "Display all staff") {
             allStaff();
-        } else if (answer.makeSelection === "Display all positions") {
-            allPositions();
+        } else if (answer.makeSelection === "Display all occupations") {
+            allOccupations();
         } else if (answer.makeSelection === "Add department") {
             addDept();
         } else if (answer.makeSelection === "Add employee to staff") {
             addStaff();
-        } else if (answer.makeSelection === "Add new position") {
-            addPosition();
+        } else if (answer.makeSelection === "Add new occupation") {
+            addOccupation();
         }
     })
 
@@ -64,8 +64,8 @@ const start = () => {
     };
 
 
-    allPositions = () => {
-    const sql = `SELECT * FROM position`;
+    allOccupations = () => {
+    const sql = `SELECT * FROM occupation`;
     db.query(sql, (err, rows) => {
     if (err) {
         throw err;
@@ -98,34 +98,35 @@ const start = () => {
     })
 }
 
-addPosition = () => {
+addOccupation = () => {
     return inquirer.prompt ([
            {
            type: "input",
            name: "title",
-           message: "Please enter new position's title"
+           message: "Please enter new occupation's title"
            },
            {
             type: "input",
             name: "departmentId",
-            message: "Please enter the department id for the new position"
+            message: "Please enter the department id for the new occupation"
             },
             {
             type: "input",
             name: "salary",
-            message: "Please enter new position's salary"
+            message: "Please enter new occupation's salary"
                 },
 
-       ]).then((answer) => {
-           const sql = `INSERT INTO position (title, dept_id, salary)
-           VALUES (?,?,?)`;
-        const params = [answer.title, answer.departmentId, answer.salary];
+            ]).then((answer) => {
 
-        db.query(sql, params, (err, result) => {
-           if (err) {
-             throw err;
-           }
-           allPositions();
+                const sql = `INSERT INTO occupation (title, dept_id, salary)
+                   VALUES (?,?,?)`;
+                const params = [answer.title, answer.departmentId, answer.salary];
+              
+                db.query(sql, params, (err, result) => {
+                  if (err) {
+                    throw err;
+                  }
+                  allOccupations();
              //start();
 
        })
@@ -145,7 +146,11 @@ const addStaff = () => {
             name: "lastName",
             message: "Please enter employee's late name"
         },
-
+        {
+            type: "input",
+            name: "department",
+            message: "Please enter employee's department"
+        },
         {
             type: "input",
             name: "roleId",
@@ -156,13 +161,18 @@ const addStaff = () => {
             name: "managerId",
             message: "Please enter employee's manager's id"
         },
+        {
+            type: "input",
+            name: "salary",
+            message: "Please enter employee's salary"
+        },
 
         
     ]).then((answer) => {
 
-    const sql = `INSERT INTO staff (first_name, last_name, role_id, manager_id)
-       VALUES (?,?,?,?)`;
-    const params = [answer.firstName, answer.lastName, answer.roleId, answer.managerId];
+    const sql = `INSERT INTO staff (first_name, last_name, department, role_id, manager_id, salary)
+       VALUES (?,?,?,?,?,?)`;
+    const params = [answer.firstName, answer.lastName, answer.department, answer.roleId, answer.managerId, answer.salary];
   
     db.query(sql, params, (err, result) => {
       if (err) {
