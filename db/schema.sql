@@ -1,14 +1,16 @@
 DROP TABLE IF EXISTS staff;
 DROP TABLE IF EXISTS department;
-DROP TABLE IF EXISTS position;
+DROP TABLE IF EXISTS occupation;
 
 
 CREATE TABLE staff (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
+  department VARCHAR(30) NOT NULL,
   role_id INTEGER NOT NULL,
-  manager_id INTEGER
+  manager_id INTEGER,
+  salary DECIMAL
 );
 
 CREATE TABLE department (
@@ -16,9 +18,9 @@ CREATE TABLE department (
   name VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE position (
+CREATE TABLE occupation (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   dept_id INTEGER NOT NULL,
-  salary DECIMAL NOT NULL
+  salary DECIMAL
 );
